@@ -22,6 +22,12 @@ if(heroPhoto){
   heroPhoto.alt='Julkinen valokuva leipomon tiskistä, leivonnaisista ja kakuista';
   heroPhoto.referrerPolicy='no-referrer';
 }
+const storyPhoto=document.querySelector('.story-visual img');
+if(storyPhoto){
+  storyPhoto.src='https://tse1.mm.bing.net/th/id/OIP.Kxmbz3YIK2fIDgKJSwEGkAHaE7?r=0&rs=1&pid=ImgDetMain&o=7&rm=3';
+  storyPhoto.alt='BakeVyn Facebookissa julkaistu kuva';
+  storyPhoto.referrerPolicy='no-referrer';
+}
 
 const groups={sizes:'8',bases:'Vaalea vanilja',fillings:'Mansikka & vanilja',decorations:'Hillitty koristelu'};
 let total=45;
@@ -115,19 +121,35 @@ document.querySelectorAll('[data-cake-view]').forEach(button=>button.addEventLis
   updateCakePreview();
 }));
 
-// A demo-only calendar. Real bookings require a secure server-side capacity system.
-const monthNames=['tammikuuta','helmikuuta','maaliskuuta','huhtikuuta','toukokuuta','kesäkuuta','heinäkuuta','elokuuta','syyskuuta','lokakuuta','marraskuuta','joulukuuta'];
+// Demo-only booking calendar: the chosen date and time are added to the enquiry.
 const monthHeading=['Tammikuu','Helmikuu','Maaliskuu','Huhtikuu','Toukokuu','Kesäkuu','Heinäkuu','Elokuu','Syyskuu','Lokakuu','Marraskuu','Joulukuu'];
 const mondayOf=date=>{const d=new Date(date.getFullYear(),date.getMonth(),date.getDate());d.setDate(d.getDate()-(d.getDay()+6)%7);return d;};
 const isoLocal=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
-const getISOWeek=d=>{let t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));t.setUTCDate(t.getUTCDate()+4-(t.getUTCDay()||7));let y=new Date(Date.UTC(t.getUTCFullYear(),0,1));return Math.ceil((((t-y)/86400000)+1)/7);};
-const initial=new Date();let shown=new Date(initial.getFullYear(),initial.getMonth(),1);const key='bakevy-demo-weeks-v1';let overrides={};try{overrides=JSON.parse(localStorage.getItem(key)||'{}')||{}}catch(e){overrides={}};
-const statuses=[['available','Vapaata'],['limited','Kysy saatavuutta'],['full','Täynnä']];
-function statusFor(d){const k=isoLocal(d);if(overrides[k])return overrides[k];const ix=Math.floor((d-new Date(initial.getFullYear(),initial.getMonth(),1))/604800000);return ix===1?'limited':ix===2?'full':'available';}
-function renderWeeks(){ $('monthLabel').textContent=monthHeading[shown.getMonth()]+' '+shown.getFullYear();const weeks=[];let d=mondayOf(shown);while(d.getMonth()===shown.getMonth()||new Date(d.getFullYear(),d.getMonth(),d.getDate()+6).getMonth()===shown.getMonth()){weeks.push(new Date(d));d.setDate(d.getDate()+7);if(weeks.length>6)break;}const parent=$('weekList');parent.innerHTML='';weeks.forEach(m=>{const end=new Date(m);end.setDate(m.getDate()+6);const code=statusFor(m),label=statuses.find(x=>x[0]===code)[1];const row=document.createElement('button');row.type='button';row.className='week-row';row.setAttribute('aria-label',`Viikko ${getISOWeek(m)}: ${label}. Vaihda varaustilannetta.`);row.innerHTML=`<span class="week-no">VK ${getISOWeek(m)}</span><span class="week-dates">${m.getDate()}.${m.getMonth()+1}. – ${end.getDate()}.${end.getMonth()+1}.</span><span class="status ${code}">${label}</span>`;row.addEventListener('click',()=>{const next=statuses[(statuses.findIndex(x=>x[0]===statusFor(m))+1)%statuses.length][0];overrides[isoLocal(m)]=next;try{localStorage.setItem(key,JSON.stringify(overrides))}catch(e){}renderWeeks();});parent.appendChild(row);});}
-$('prevMonth').addEventListener('click',()=>{shown=new Date(shown.getFullYear(),shown.getMonth()-1,1);renderWeeks();});$('nextMonth').addEventListener('click',()=>{shown=new Date(shown.getFullYear(),shown.getMonth()+1,1);renderWeeks();});$('resetWeeks').addEventListener('click',()=>{overrides={};try{localStorage.removeItem(key)}catch(e){}renderWeeks();});renderWeeks();
-$('pickupDate').min=isoLocal(new Date());
-$('orderForm').addEventListener('submit',e=>{e.preventDefault();const fd=new FormData(e.currentTarget);const text=`BakeVy – TILAUSKYSELY (DEMO)\n\nNimi: ${fd.get('name')}\nSähköposti: ${fd.get('email')}\nPuhelin: ${fd.get('phone')||'-'}\nNoutopäivä: ${fd.get('date')}\nTuote: ${fd.get('type')}\n\nKakkukoneen valinnat:\n- Koko: ${groups.sizes} hlö\n- Pohja: ${groups.bases}\n- Täyte: ${groups.fillings}\n- Koristelu: ${groups.decorations}\n- Hinta-arvio: ${total} € (ei sitova)\n\nToiveet: ${fd.get('message')||'-'}\n\nHUOM: Tämä on vain tilauskyselyn esikatselu. Mitään ei lähetetty.`;$('previewText').textContent=text;$('previewDialog').showModal();});
+const initial=new Date();initial.setHours(0,0,0,0);let shown=new Date(initial.getFullYear(),initial.getMonth(),1);const key='bakevy-demo-days-v1';let overrides={};try{overrides=JSON.parse(localStorage.getItem(key)||'{}')||{}}catch(e){overrides={}};
+const statuses=[['available','Vapaata'],['limited','Kysy saatavuutta'],['full','Täynnä']];let selectedPickupDate='';
+const timeInput=document.createElement('input');timeInput.type='hidden';timeInput.name='time';timeInput.id='pickupTime';$('orderForm').appendChild(timeInput);
+const timePicker=document.createElement('label');timePicker.className='pickup-time-picker';timePicker.innerHTML='Valitse noutoaika <select id="pickupTimeSelect"><option value="">Valitse aika</option><option>10.00–12.00</option><option>12.00–14.00</option><option>14.00–16.00</option><option>16.00–18.00</option></select>';$('weekList').insertAdjacentElement('afterend',timePicker);
+document.querySelector('.calendar-section .section-top>p').textContent='Valitse kalenterista noutopäivä ja sen jälkeen sinulle sopiva noutoaika.';document.querySelector('.cal-mini').textContent='VALITSE NOUTOAIKA';document.querySelector('.calendar-side h3').textContent='Valitse nouto helposti kalenterista.';document.querySelector('.calendar-side>p').textContent='Vihreät päivät ovat vapaana. Keltainen tarkoittaa, että varmistamme saatavuuden. Harmaat päivät eivät ole varattavissa demossa.';document.querySelector('.calendar-side .underlink').textContent='Siirry tilaustietoihin ↗';document.querySelector('.calendar-side .underlink').href='#tilaus';document.querySelector('.calendar-admin p').textContent='Saatavuus on tässä paikallisessa demossa esimerkkitietoa.';$('goOrder').textContent='Valitse noutoaika ↘';$('goOrder').href='#kalenteri';
+document.querySelector('.builder-heading .eyebrow').textContent='VAIHE 1 / 4 · VALITSE KAKKU';document.querySelector('.order-section').insertAdjacentElement('afterend',document.querySelector('.story'));
+document.querySelector('.order-section .section-top .eyebrow').textContent='VAIHE 3 / 4 · YHTEYSTIEDOT';document.querySelector('.order-section .section-top h2').innerHTML='Viimeistele <em>tilauksesi.</em>';document.querySelector('.order-section .section-top>p').textContent='Tarkista noutopäivä ja täytä yhteystietosi. Sen jälkeen siirryt maksun esikatseluun.';document.querySelector('#orderForm button[type="submit"]').innerHTML='Tilaa tästä <span>↗</span>';
+const pickupTimeSelect=$('pickupTimeSelect');pickupTimeSelect.addEventListener('change',()=>{timeInput.value=pickupTimeSelect.value;});
+function statusFor(d){const k=isoLocal(d);if(overrides[k])return overrides[k];const offset=Math.floor((d-initial)/86400000);return offset%11===0?'full':offset%5===0?'limited':'available';}
+function selectPickupDate(date){const code=statusFor(date);if(date<initial||code==='full')return;selectedPickupDate=isoLocal(date);$('pickupDate').value=selectedPickupDate;shown=new Date(date.getFullYear(),date.getMonth(),1);renderCalendar();}
+function renderCalendar(){
+  $('monthLabel').textContent=monthHeading[shown.getMonth()]+' '+shown.getFullYear();const parent=$('weekList');parent.className='week-list month-calendar';parent.innerHTML='<div class="calendar-weekdays"><span>Ma</span><span>Ti</span><span>Ke</span><span>To</span><span>Pe</span><span>La</span><span>Su</span></div><div class="calendar-days"></div>';
+  const days=parent.querySelector('.calendar-days'),start=mondayOf(shown);
+  for(let i=0;i<42;i++){const day=new Date(start);day.setDate(start.getDate()+i);const code=statusFor(day),todayOrFuture=day>=initial,currentMonth=day.getMonth()===shown.getMonth(),selected=isoLocal(day)===selectedPickupDate;const button=document.createElement('button');button.type='button';button.className=`calendar-day ${code}${currentMonth?'':' other-month'}${selected?' selected':''}`;button.disabled=!todayOrFuture||code==='full';button.innerHTML=`<span>${day.getDate()}</span><i aria-hidden="true"></i>`;button.setAttribute('aria-label',`${day.getDate()}.${day.getMonth()+1}.${day.getFullYear()}: ${statuses.find(item=>item[0]===code)[1]}${selected?', valittu noutopäivä':''}`);button.addEventListener('click',()=>selectPickupDate(day));days.appendChild(button);}
+}
+$('prevMonth').addEventListener('click',()=>{shown=new Date(shown.getFullYear(),shown.getMonth()-1,1);renderCalendar();});$('nextMonth').addEventListener('click',()=>{shown=new Date(shown.getFullYear(),shown.getMonth()+1,1);renderCalendar();});$('resetWeeks').addEventListener('click',()=>{overrides={};try{localStorage.removeItem(key)}catch(e){}renderCalendar();});
+$('pickupDate').min=isoLocal(initial);$('pickupDate').addEventListener('change',()=>{if(!$('pickupDate').value)return;const date=new Date($('pickupDate').value+'T00:00:00');if(statusFor(date)!=='full'){selectedPickupDate=$('pickupDate').value;shown=new Date(date.getFullYear(),date.getMonth(),1);renderCalendar();}});renderCalendar();
+const escapeHtml=value=>String(value||'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[char]));
+$('orderForm').addEventListener('submit',e=>{
+  e.preventDefault();e.stopImmediatePropagation();
+  if(!timeInput.value){pickupTimeSelect.focus();alert('Valitse ensin noutoaika kalenterista.');return;}
+  const fd=new FormData(e.currentTarget),name=escapeHtml(fd.get('name')),date=escapeHtml(fd.get('date')),time=escapeHtml(timeInput.value),email=escapeHtml(fd.get('email'));
+  const modal=$('previewDialog').querySelector('.modal');modal.innerHTML=`<button class="close-modal" id="closePayment" aria-label="Sulje">✕</button><div class="eyebrow">VAIHE 4 / 4 · MAKSU</div><h2>Vahvista ja <em>maksa.</em></h2><p>Demo: maksua ei välitetä maksupalveluun eikä korttitietoja käsitellä.</p><div class="confirmation-box"><b>${name}</b><br>Nouto: ${date} klo ${time}<br>Sähköposti: ${email}</div><div class="payment-total">${total} €</div><div class="payment-methods"><label><input type="radio" name="payment" checked> Korttimaksu</label><label><input type="radio" name="payment"> Mobiilimaksu</label></div><button type="button" class="btn btn-dark full" id="confirmPayment">Maksa demo-tilaus <span>↗</span></button><p class="payment-note">Oikea maksu vaatii suojatun maksupalvelun ja palvelinpuolen vahvistuksen.</p>`;$('previewDialog').showModal();
+  $('closePayment').addEventListener('click',closeDialog);$('confirmPayment').addEventListener('click',()=>{modal.innerHTML=`<button class="close-modal" id="closePayment" aria-label="Sulje">✕</button><div class="eyebrow">TILAUS VAHVISTETTU · DEMO</div><h2>Kiitos, ${name} ♡</h2><p>Kakkusi on varattu valitsemaasi noutoajankohtaan.</p><div class="confirmation-box"><b>Noutoajankohta</b><br>${date} klo ${time}<br><br><b>Noutopaikka</b><br>[Lisää vahvistettu nouto-osoite ennen julkaisua], Oulu</div><p class="payment-note">Tämä on paikallinen demo. Maksua ei veloitettu eikä tilausta lähetetty.</p><button type="button" class="btn btn-dark" id="closePayment">Valmis</button>`;$('closePayment').addEventListener('click',closeDialog);});
+},true);
 function closeDialog(){$('previewDialog').close();}
 $('closeModal').addEventListener('click',closeDialog);
 $('dismissModal').addEventListener('click',closeDialog);
