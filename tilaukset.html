@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BakeVy | Tilaukset</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap");
+      :root {
+        --cream: #faf6f0;
+        --ink: #35302d;
+        --muted: #716c68;
+        --coral: #bd6d5d;
+        --line: #e6dcd2;
+        --sage: #789878;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: var(--ink);
+        font:
+          16px/1.55 "DM Sans",
+          Arial,
+          sans-serif;
+      }
+      .bar {
+        background: #453730;
+        color: #fff;
+        padding: 10px 22px;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: auto;
+        padding: 55px 30px;
+      }
+      .top {
+        display: flex;
+        justify-content: space-between;
+        gap: 25px;
+        align-items: flex-end;
+        margin-bottom: 36px;
+      }
+      .eyebrow {
+        color: var(--coral);
+        font-size: 12px;
+        letter-spacing: 0.2em;
+        font-weight: 700;
+      }
+      .top h1 {
+        font:
+          400 clamp(38px, 5vw, 64px)/1.05 "Playfair Display",
+          serif;
+        letter-spacing: -0.04em;
+        margin: 8px 0 0;
+      }
+      .top h1 em {
+        color: var(--coral);
+      }
+      .back {
+        border-bottom: 1px solid var(--coral);
+        padding-bottom: 5px;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        color: inherit;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 13px;
+        margin-bottom: 27px;
+      }
+      .stat {
+        background: #fffaf6;
+        border: 1px solid var(--line);
+        padding: 17px;
+      }
+      .stat span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .stat strong {
+        font:
+          400 29px "Playfair Display",
+          serif;
+      }
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        align-items: center;
+        margin-bottom: 14px;
+      }
+      .toolbar p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .toolbar select {
+        font: inherit;
+        padding: 10px 12px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+      .orders {
+        display: grid;
+        gap: 13px;
+      }
+      .order {
+        background: #fffaf6;
+        border: 1px solid var(--line);
+        display: grid;
+        grid-template-columns: 170px minmax(0, 1fr) 175px;
+        gap: 25px;
+        padding: 22px;
+      }
+      .date {
+        border-right: 1px solid var(--line);
+      }
+      .date b {
+        display: block;
+        font:
+          400 24px "Playfair Display",
+          serif;
+      }
+      .date span {
+        display: block;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .order h2 {
+        font:
+          500 22px "Playfair Display",
+          serif;
+        margin: 0 0 4px;
+      }
+      .customer {
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 13px;
+      }
+      .items {
+        display: grid;
+        gap: 5px;
+      }
+      .item {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 14px;
+      }
+      .item small {
+        color: var(--muted);
+      }
+      .status {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 9px;
+      }
+      .status label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+      }
+      .status select {
+        font: inherit;
+        padding: 9px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+      .total {
+        font:
+          400 28px "Playfair Display",
+          serif;
+        margin-top: auto;
+      }
+      .empty {
+        background: #fffaf6;
+        border: 1px dashed #d5c5bc;
+        padding: 55px 20px;
+        text-align: center;
+        color: var(--muted);
+      }
+      .note {
+        margin-top: 25px;
+        padding: 15px 17px;
+        background: #f2e4dc;
+        color: #68544b;
+        font-size: 13px;
+      }
+      @media (max-width: 760px) {
+        .wrap {
+          padding: 36px 18px;
+        }
+        .top {
+          display: block;
+        }
+        .back {
+          display: inline-block;
+          margin-top: 20px;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .order {
+          grid-template-columns: 1fr;
+          gap: 16px;
+        }
+        .date {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+          padding-bottom: 12px;
+        }
+        .status {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: end;
+        }
+        .total {
+          margin: 0;
+        }
+        .toolbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bar">BAKEVY · TILAUSTEN HALLINTA</div>
+    <main class="wrap">
+      <div class="top">
+        <div>
+          <div class="eyebrow">TYÖJONO</div>
+          <h1>Tulevat <em>tilaukset.</em></h1>
+        </div>
+        <a class="back" href="index.html">← Takaisin sivustolle</a>
+      </div>
+      <div class="stats">
+        <div class="stat">
+          <span>Tulevat tilaukset</span><strong id="count">0</strong>
+        </div>
+        <div class="stat">
+          <span>Tämän viikon noudot</span><strong id="weekCount">0</strong>
+        </div>
+        <div class="stat">
+          <span>Arvioitu myynti</span><strong id="sales">0 €</strong>
+        </div>
+      </div>
+      <div class="toolbar">
+        <p>Tilaukset ovat noutoajan mukaisessa järjestyksessä.</p>
+        <select id="filter">
+          <option value="all">Kaikki tilaukset</option>
+          <option value="Uusi">Uudet</option>
+          <option value="Vahvistettu">Vahvistetut</option>
+          <option value="Valmistuksessa">Valmistuksessa</option>
+          <option value="Noudettu">Noudetut</option>
+        </select>
+      </div>
+      <section class="orders" id="orders"></section>
+      <p class="note">
+        Tämä demoversio tallentaa tilaukset vain tämän laitteen selaimeen.
+        Julkaistuun versioon tilaukset kannattaa tallentaa tietokantaan, jotta
+        ne näkyvät yrittäjälle kaikilla laitteilla.
+      </p>
+    </main>
+    <script>
+      const key = "bakevy-demo-orders-v1";
+      const $ = (id) => document.getElementById(id);
+      let orders = [];
+      try {
+        orders = JSON.parse(localStorage.getItem(key) || "[]") || [];
+      } catch (e) {}
+      const esc = (v) =>
+        String(v || "").replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              ">": "&gt;",
+              "<": "&lt;",
+              '"': "&quot;",
+              "'": "&#039;",
+            })[c],
+        );
+      const dateText = (value) => {
+        const d = new Date(value + "T00:00:00");
+        return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}`;
+      };
+      function render() {
+        const filter = $("filter").value;
+        const sorted = [...orders]
+          .filter((o) => filter === "all" || o.status === filter)
+          .sort((a, b) =>
+            `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`),
+          );
+        $("count").textContent = orders.filter(
+          (o) => o.status !== "Noudettu",
+        ).length;
+        $("sales").textContent =
+          orders
+            .filter((o) => o.status !== "Noudettu")
+            .reduce((sum, o) => sum + o.total, 0) + " €";
+        const today = new Date(),
+          end = new Date(today);
+        end.setDate(today.getDate() + 7);
+        $("weekCount").textContent = orders.filter((o) => {
+          const d = new Date(o.date + "T00:00:00");
+          return d >= today && d <= end;
+        }).length;
+        $("orders").innerHTML = sorted.length
+          ? sorted
+              .map(
+                (o) =>
+                  `<article class="order"><div class="date"><b>${dateText(o.date)}</b><span>${esc(o.time)}</span><span>Tilaus #${esc(o.id)}</span></div><div><h2>${esc(o.name)}</h2><p class="customer">${esc(o.email)}${o.phone ? " · " + esc(o.phone) : ""}</p><div class="items">${o.items.map((i) => `<div class="item"><span>${i.quantity} × ${esc(i.title)} <small>(${esc(i.size)} hlö, ${esc(i.base)}, ${esc(i.filling)}, ${esc(i.decoration)})</small></span><b>${i.price * i.quantity} €</b></div>`).join("")}</div>${o.message ? `<p class="customer">Lisätoive: ${esc(o.message)}</p>` : ""}</div><div class="status"><label>TILA</label><select data-id="${esc(o.id)}">${["Uusi", "Vahvistettu", "Valmistuksessa", "Noudettu", "Peruttu"].map((s) => `<option ${o.status === s ? "selected" : ""}>${s}</option>`).join("")}</select><div class="total">${o.total} €</div></div></article>`,
+              )
+              .join("")
+          : '<div class="empty">Ei vielä tilauksia. Kun demo-tilaus vahvistetaan sivustolla, se ilmestyy tähän listaan.</div>';
+      }
+      $("filter").addEventListener("change", render);
+      $("orders").addEventListener("change", (e) => {
+        const id = e.target.dataset.id;
+        if (!id) return;
+        const order = orders.find((o) => o.id === id);
+        if (order) {
+          order.status = e.target.value;
+          localStorage.setItem(key, JSON.stringify(orders));
+          render();
+        }
+      });
+      render();
+    </script>
+  </body>
+</html>
