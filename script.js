@@ -601,12 +601,10 @@ $("orderForm").addEventListener(
       .join("<br />");
     const orderTotal = cartSum();
     const modal = $("previewDialog").querySelector(".modal");
-    modal.innerHTML = `<button class="close-modal" id="closePayment" aria-label="Sulje">✕</button><div class="eyebrow">VAIHE 4 / 4 · VAHVISTA TILAUS</div><h2>Tarkista ja <em>lähetä.</em></h2><p>Tilauksen sähköpostiluonnos avataan osoitteeseen BakeVy. Maksu suoritetaan noudettaessa.</p><div class="confirmation-box"><b>${name}</b><br>Nouto: ${date} klo ${time}<br>Sähköposti: ${email}<br><br><b>Ostoskorisi</b><br>${cartLines}</div><div class="payment-total">${orderTotal} €</div><button type="button" class="btn btn-dark full" id="confirmPayment">Lähetä tilaus <span>↗</span></button><p class="payment-note">Maksu suoritetaan noudettaessa. Sähköpostin automaattinen lähetys vaatii julkaistuun sivuun sähköpostipalvelun.</p>`;
+    modal.innerHTML = `<button class="close-modal" id="closePayment" aria-label="Sulje">✕</button><div class="eyebrow">VAIHE 4 / 4 · VAHVISTA TILAUS</div><h2>Tarkista ja <em>lähetä.</em></h2><p>Tilauksesi tallentuu BakeVyn hallintanäkymään. Maksu suoritetaan noudettaessa.</p><div class="confirmation-box"><b>${name}</b><br>Nouto: ${date} klo ${time}<br>Sähköposti: ${email}<br><br><b>Ostoskorisi</b><br>${cartLines}</div><div class="payment-total">${orderTotal} €</div><button type="button" class="btn btn-dark full" id="confirmPayment">Lähetä tilaus <span>↗</span></button><p class="payment-note">Maksu suoritetaan noudettaessa.</p>`;
     $("previewDialog").showModal();
     $("closePayment").addEventListener("click", closeDialog);
     $("confirmPayment").addEventListener("click", () => {
-      const mailBody = `UUSI BAKEVY-TILAUS\n\nAsiakas: ${name}\nSähköposti: ${email}\nPuhelin: ${phone || "ei annettu"}\nNouto: ${date} klo ${time}\n\nTILAUS:\n${cart.map((item) => `${item.quantity} × ${item.title} — ${cakeDescription(item)} — ${item.price * item.quantity} €`).join("\n")}\n\nYhteensä: ${orderTotal} €\n\nLisätoiveet:\n${message || "Ei lisätoiveita."}`;
-      window.location.href = `mailto:sami.o.koski@gmail.com?subject=${encodeURIComponent("Uusi BakeVy-tilaus")}&body=${encodeURIComponent(mailBody)}`;
       const orderKey = "bakevy-demo-orders-v1";
       let savedOrders = [];
       try {
