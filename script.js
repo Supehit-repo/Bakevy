@@ -638,7 +638,7 @@ $("orderForm").addEventListener(
       cart = [];
       saveCart();
       renderCart();
-      $("closePayment").addEventListener("click", closeDialog);
+      $("closePayment").addEventListener("click", returnToStart);
       $("confirmationContact").addEventListener("click", closeDialog);
     });
   },
@@ -646,6 +646,10 @@ $("orderForm").addEventListener(
 );
 function closeDialog() {
   $("previewDialog").close();
+}
+function returnToStart() {
+  closeDialog();
+  $("alku").scrollIntoView({ behavior: "smooth" });
 }
 $("closeModal").addEventListener("click", closeDialog);
 $("dismissModal").addEventListener("click", closeDialog);
