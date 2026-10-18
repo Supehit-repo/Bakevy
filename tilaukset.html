@@ -104,11 +104,29 @@
         color: var(--muted);
         font-size: 14px;
       }
-      .toolbar select {
-        font: inherit;
-        padding: 10px 12px;
+      .order-views {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .order-view {
+        min-height: 42px;
+        padding: 10px 14px;
         border: 1px solid var(--line);
-        background: #fff;
+        background: #fffaf6;
+        color: var(--ink);
+        cursor: pointer;
+        font:
+          700 12px Montserrat,
+          sans-serif;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .order-view:hover,
+      .order-view.active {
+        border-color: var(--ink);
+        background: var(--ink);
+        color: #fff;
       }
       .orders {
         display: grid;
@@ -159,6 +177,28 @@
       }
       .item small {
         color: var(--muted);
+      }
+      .reference-images {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+      }
+      .reference-images b {
+        width: 100%;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+      .reference-images a {
+        display: block;
+      }
+      .reference-images img {
+        display: block;
+        width: 76px;
+        height: 76px;
+        object-fit: cover;
+        border: 1px solid var(--line);
       }
       .status {
         display: flex;
@@ -242,7 +282,7 @@
       <div class="top">
         <div>
           <div class="eyebrow">TYÖJONO</div>
-          <h1>Tulevat <em>tilaukset.</em></h1>
+          <h1 id="ordersHeading">Tulevat <em>tilaukset.</em></h1>
         </div>
         <a class="back" href="index.html">← Takaisin sivustolle</a>
       </div>
@@ -259,13 +299,32 @@
       </div>
       <div class="toolbar">
         <p>Tilaukset ovat noutoajan mukaisessa järjestyksessä.</p>
-        <select id="filter">
-          <option value="all">Kaikki tilaukset</option>
-          <option value="Uusi">Uudet</option>
-          <option value="Vahvistettu">Vahvistetut</option>
-          <option value="Valmistuksessa">Valmistuksessa</option>
-          <option value="Noudettu">Noudetut</option>
-        </select>
+        <div class="order-views" role="tablist" aria-label="Tilausnäkymä">
+          <button
+            class="order-view active"
+            type="button"
+            data-view="upcoming"
+            aria-pressed="true"
+          >
+            Tulevat tilaukset
+          </button>
+          <button
+            class="order-view"
+            type="button"
+            data-view="delivered"
+            aria-pressed="false"
+          >
+            Toimitetut tilaukset
+          </button>
+          <button
+            class="order-view"
+            type="button"
+            data-view="all"
+            aria-pressed="false"
+          >
+            Kaikki tilaukset
+          </button>
+        </div>
       </div>
       <section class="orders" id="orders"></section>
       <p class="note">
@@ -297,13 +356,23 @@
         const d = new Date(value + "T00:00:00");
         return `${d.getDate()}.${d.getMonth() + 1}.${d.getFullYear()}`;
       };
+      let activeView = "upcoming";
       function render() {
-        const filter = $("filter").value;
         const sorted = [...orders]
-          .filter((o) => filter === "all" || o.status === filter)
+          .filter((o) => {
+            if (activeView === "delivered") return o.status === "Noudettu";
+            if (activeView === "upcoming") return o.status !== "Noudettu";
+            return true;
+          })
           .sort((a, b) =>
             `${a.date} ${a.time}`.localeCompare(`${b.date} ${b.time}`),
           );
+        $("ordersHeading").innerHTML =
+          activeView === "delivered"
+            ? "Toimitetut <em>tilaukset.</em>"
+            : activeView === "all"
+              ? "Kaikki <em>tilaukset.</em>"
+              : "Tulevat <em>tilaukset.</em>";
         $("count").textContent = orders.filter(
           (o) => o.status !== "Noudettu",
         ).length;
@@ -322,18 +391,50 @@
           ? sorted
               .map(
                 (o) =>
-                  `<article class="order"><div class="date"><b>${dateText(o.date)}</b><span>${esc(o.time)}</span><span>Tilaus #${esc(o.id)}</span></div><div><h2>${esc(o.name)}</h2><p class="customer">${esc(o.email)}${o.phone ? " · " + esc(o.phone) : ""}</p><div class="items">${o.items.map((i) => `<div class="item"><span>${i.quantity} × ${esc(i.title)} <small>(${esc(i.size)} hlö, ${esc(i.base)}, ${esc(i.filling)}, ${esc(i.decoration)})</small></span><b>${i.price * i.quantity} €</b></div>`).join("")}</div>${o.message ? `<p class="customer">Lisätoive: ${esc(o.message)}</p>` : ""}</div><div class="status"><label>TILA</label><select data-id="${esc(o.id)}">${["Uusi", "Vahvistettu", "Valmistuksessa", "Noudettu", "Peruttu"].map((s) => `<option ${o.status === s ? "selected" : ""}>${s}</option>`).join("")}</select><div class="total">${o.total} €</div></div></article>`,
+                  `<article class="order"><div class="date"><b>${dateText(o.date)}</b><span>${esc(o.time)}</span><span>Tilaus #${esc(o.id)}</span></div><div><h2>${esc(o.name)}</h2><p class="customer">${esc(o.email)}${o.phone ? " · " + esc(o.phone) : ""}</p><div class="items">${o.items.map((i) => `<div class="item"><span>${i.quantity} × ${esc(i.title)} <small>(${esc(i.size)} hlö, ${esc(i.base)}, ${esc(i.filling)}, ${esc(i.decoration)})</small></span><b>${i.price * i.quantity} €</b></div>`).join("")}</div>${o.message ? `<p class="customer">Lisätoive: ${esc(o.message)}</p>` : ""}${
+                    Array.isArray(o.images) && o.images.length
+                      ? `<div class="reference-images"><b>INSPIRAATIOKUVAT</b>${o.images
+                          .filter((src) =>
+                            String(src).startsWith("data:image/"),
+                          )
+                          .map(
+                            (src, index) =>
+                              `<a href="${esc(src)}" target="_blank" rel="noopener"><img src="${esc(src)}" alt="Inspiraatiokuva ${index + 1}" /></a>`,
+                          )
+                          .join("")}</div>`
+                      : ""
+                  }</div><div class="status"><label>TILA</label><select data-id="${esc(o.id)}">${["Uusi", "Vahvistettu", "Valmistuksessa", "Noudettu", "Peruttu"].map((s) => `<option ${o.status === s ? "selected" : ""}>${s}</option>`).join("")}</select><div class="total">${o.total} €</div></div></article>`,
               )
               .join("")
-          : '<div class="empty">Ei vielä tilauksia. Kun demo-tilaus vahvistetaan sivustolla, se ilmestyy tähän listaan.</div>';
+          : `<div class="empty">${
+              activeView === "delivered"
+                ? "Ei vielä toimitettuja tilauksia."
+                : activeView === "all"
+                  ? "Ei vielä tilauksia. Kun demo-tilaus vahvistetaan sivustolla, se ilmestyy tähän listaan."
+                  : "Ei tulevia tilauksia."
+            }</div>`;
       }
-      $("filter").addEventListener("change", render);
+      document.querySelectorAll(".order-view").forEach((button) => {
+        button.addEventListener("click", () => {
+          activeView = button.dataset.view;
+          document.querySelectorAll(".order-view").forEach((view) => {
+            const isActive = view === button;
+            view.classList.toggle("active", isActive);
+            view.setAttribute("aria-pressed", String(isActive));
+          });
+          render();
+        });
+      });
       $("orders").addEventListener("change", (e) => {
         const id = e.target.dataset.id;
         if (!id) return;
         const order = orders.find((o) => o.id === id);
         if (order) {
-          order.status = e.target.value;
+          if (e.target.value === "Peruttu") {
+            orders = orders.filter((item) => item.id !== id);
+          } else {
+            order.status = e.target.value;
+          }
           localStorage.setItem(key, JSON.stringify(orders));
           render();
         }

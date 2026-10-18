@@ -1,7 +1,7 @@
 "use strict";
 const $ = (id) => document.getElementById(id);
 $("year").textContent = new Date().getFullYear();
-// Inspiraatiokuvat ovat paikallinen esikatselu: niitä ei tallenneta tai lähetetä.
+// Inspiraatiokuvat näkyvät paikallisesti ja liitetään tilaukseen sen lähetysvaiheessa.
 document.querySelectorAll(".image-slot").forEach((slot) => {
   const input = slot.querySelector("input"),
     image = slot.querySelector("img"),
@@ -606,6 +606,11 @@ $("orderForm").addEventListener(
     $("closePayment").addEventListener("click", closeDialog);
     $("confirmPayment").addEventListener("click", () => {
       const orderKey = "bakevy-demo-orders-v1";
+      const inspirationImages = [
+        ...document.querySelectorAll(".image-slot img"),
+      ]
+        .filter((image) => !image.hidden && image.src.startsWith("data:image/"))
+        .map((image) => image.src);
       let savedOrders = [];
       try {
         savedOrders = JSON.parse(localStorage.getItem(orderKey) || "[]") || [];
@@ -621,6 +626,7 @@ $("orderForm").addEventListener(
         time,
         total: orderTotal,
         status: "Uusi",
+        images: inspirationImages,
         items: cart.map((item) => ({
           title: item.title,
           size: item.size,
