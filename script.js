@@ -78,14 +78,6 @@ document
     image.alt = photo.alt;
     image.referrerPolicy = "no-referrer";
   });
-const heroPhoto = document.querySelector(".hero-image>img");
-if (heroPhoto) {
-  heroPhoto.src =
-    "https://images.unsplash.com/photo-1697890191807-36238e23a0c9?auto=format&fit=crop&fm=jpg&q=85&w=1600";
-  heroPhoto.alt =
-    "Julkinen valokuva leipomon tiskistä, leivonnaisista ja kakuista";
-  heroPhoto.referrerPolicy = "no-referrer";
-}
 const storyPhoto = document.querySelector(".story-visual img");
 if (storyPhoto) {
   storyPhoto.src =
@@ -382,7 +374,7 @@ document.querySelectorAll("[data-cake-view]").forEach((button) =>
   }),
 );
 
-// Demo-only booking calendar: the chosen date and time are added to the enquiry.
+// Valittu noutopäivä ja -aika lisätään tilaukseen.
 const monthHeading = [
   "Tammikuu",
   "Helmikuu",
@@ -435,12 +427,10 @@ document.querySelector(".cal-mini").textContent = "VALITSE NOUTOAIKA";
 document.querySelector(".calendar-side h3").textContent =
   "Valitse nouto helposti kalenterista.";
 document.querySelector(".calendar-side>p").textContent =
-  "Vihreät päivät ovat vapaana. Keltainen tarkoittaa, että varmistamme saatavuuden. Harmaat päivät eivät ole varattavissa demossa.";
+  "Vihreät päivät ovat vapaana. Keltainen tarkoittaa, että varmistamme saatavuuden. Harmaat päivät eivät ole varattavissa.";
 document.querySelector(".calendar-side .underlink").textContent =
   "Siirry tilaustietoihin ↗";
 document.querySelector(".calendar-side .underlink").href = "#tilaus";
-document.querySelector(".calendar-admin p").textContent =
-  "Saatavuus on tässä paikallisessa demossa esimerkkitietoa.";
 document.querySelector(".builder-heading .eyebrow").textContent =
   "VAIHE 1 / 4 · VALITSE KAKKU";
 document
@@ -537,13 +527,6 @@ $("prevMonth").addEventListener("click", () => {
 });
 $("nextMonth").addEventListener("click", () => {
   shown = new Date(shown.getFullYear(), shown.getMonth() + 1, 1);
-  renderCalendar();
-});
-$("resetWeeks").addEventListener("click", () => {
-  overrides = {};
-  try {
-    localStorage.removeItem(key);
-  } catch (e) {}
   renderCalendar();
 });
 $("pickupDate").min = isoLocal(initial);

@@ -327,11 +327,6 @@
         </div>
       </div>
       <section class="orders" id="orders"></section>
-      <p class="note">
-        Tämä demoversio tallentaa tilaukset vain tämän laitteen selaimeen.
-        Julkaistuun versioon tilaukset kannattaa tallentaa tietokantaan, jotta
-        ne näkyvät yrittäjälle kaikilla laitteilla.
-      </p>
     </main>
     <script>
       const key = "bakevy-demo-orders-v1";
@@ -410,7 +405,7 @@
               activeView === "delivered"
                 ? "Ei vielä toimitettuja tilauksia."
                 : activeView === "all"
-                  ? "Ei vielä tilauksia. Kun demo-tilaus vahvistetaan sivustolla, se ilmestyy tähän listaan."
+                  ? "Ei vielä tilauksia. Vahvistetut tilaukset ilmestyvät tähän listaan."
                   : "Ei tulevia tilauksia."
             }</div>`;
       }

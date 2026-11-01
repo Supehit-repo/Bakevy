@@ -7,20 +7,15 @@
     <title>BakeVy | Kotileipomo Alppilassa</title>
     <meta
       name="description"
-      content="BakeVy – käsintehtyjä kakkuja ja herkkuja Alppilasta. Suunnittele kakku ja lähetä tilauskysely."
+      content="BakeVy – käsintehtyjä kakkuja ja herkkuja Alppilasta. Suunnittele kakku ja tee tilaus."
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="demo-banner">
-      ✦ SIVUSTODEMO · Hinnat, kuvat ja saatavuus ovat esimerkkejä.
-      Tilauskyselyitä ei lähetetä.
-    </div>
     <header class="site-header">
       <div class="navwrap">
         <a href="#alku" class="brand" aria-label="BakeVy etusivu"
-          ><span class="brand-icon">✿</span
-          ><span
+          ><img class="brand-logo" src="assets/BakevyLogo.jpg" alt="" /><span
             >Bake<span class="brand-italic">Vy</span
             ><small>KOTILEIPOMO · ALPPILA</small></span
           ></a
@@ -99,11 +94,10 @@
           <div class="eyebrow">
             <span class="line"></span> LEIVOTTU RAKKAUDELLA ALPPILASSA
           </div>
-          <h1>Pieni leipomo.<br /><em>Suuria</em> juhlahetkiä.</h1>
-          <p>
-            Kauniita, herkullisia ja juuri sinun näköisiäsi kakkuja. Jokainen
-            herkku syntyy käsityönä, pienessä kotileipomossa.
-          </p>
+          <h1>
+            Pieni leipomo.<br /><em>Suuria</em>
+            <span class="hero-occasion">juhlahetkiä.</span>
+          </h1>
           <div class="hero-actions">
             <a href="#suunnittele" class="btn btn-dark"
               >Suunnittele oma kakkusi <span>↗</span></a
@@ -112,14 +106,27 @@
             >
           </div>
         </div>
-        <div class="hero-image">
+        <div class="hero-image logo-cover">
           <img
-            src="assets/hero-cake.svg"
-            alt="Kuvitettu marjoin koristeltu kerroskakku"
+            class="hero-logo"
+            src="assets/BakevyLogo.jpg"
+            alt="BakeVyn logo"
           />
           <div class="seal">MAKEITA<br />HETKIÄ <span>✳</span><br />BAKEVY</div>
           <div class="photo-note">Juuri sinun juhliisi <span>✿</span></div>
         </div>
+        <p class="hero-intro">
+          Mikäli etsit juhliisi käsityönä leivottuja kakkuja, olet oikeassa
+          paikassa!<br />Jokainen kakku suunnitellaan yksilöllisesti ja
+          valmistetaan aidoista raaka-aineista Oulun Alppilan kotikeittiössä.
+          Valikoimasta löytyy laajasti makuvaihtoehtoja moneen makuun, mutta
+          kuulen mielelläni myös omia toiveitasi. Koristeluun löydät
+          inspiraatiota kuvagalleriasta, Instagramista
+          <a href="#yhteys" class="hero-social-link">@kotileipomo.bakevy</a>
+          tai Facebookista
+          <a href="#yhteys" class="hero-social-link">@BakeVy</a>. Mutta myös
+          omat toiveesi ovat tervetulleita!
+        </p>
       </section>
       <section class="ticker" aria-label="Leipomon arvot">
         <div>
@@ -176,10 +183,6 @@
             </div>
           </article>
         </div>
-        <p class="price-disclaimer">
-          Huom! Valikoima ja hinnat ovat demon esimerkkejä, eivät BakeVyn
-          vahvistettu hinnasto.
-        </p>
       </section>
       <section class="builder-section" id="suunnittele">
         <div class="section builder-heading">
@@ -395,15 +398,11 @@
                   </button></label
                 >
               </div>
-              <p class="upload-hint">
-                Kuvat näkyvät vain tässä selaimessa demon aikana, eikä niitä
-                lähetetä minnekään.
-              </p>
+              <p class="upload-hint">Kuvat ovat tilauksesi inspiraatioksi.</p>
             </div>
             <div class="allergy-note">
               * Tuotantotilan allergeeniriskit ja erikoisruokavalioiden toteutus
-              varmistetaan aina leipurilta. Demon valinnat eivät ole
-              vahvistettuja tuotelupauksia.
+              varmistetaan aina leipurilta.
             </div>
           </div>
           <aside class="order-summary">
@@ -495,11 +494,7 @@
             <div class="eyebrow">VARAUSKALENTERI</div>
             <h2>Onko juhlapäiväsi <em>vapaana?</em></h2>
           </div>
-          <p>
-            Näet yhdellä silmäyksellä viikkojen tilanteen. Kalenteri näyttää
-            demossa esimerkkivarauksia, joita voit muokata kokeillaksesi
-            toimintaa.
-          </p>
+          <p>Valitse sinulle sopiva noutopäivä ja noutoaika kalenterista.</p>
         </div>
         <div class="calendar-layout">
           <div class="calendar-box">
@@ -532,18 +527,8 @@
               tilauksen mahdollisuutta.
             </p>
             <a href="#tilaus" class="underlink"
-              >Lähetä tilauskysely <span>↗</span></a
+              >Siirry tilaustietoihin <span>↗</span></a
             >
-            <div class="calendar-admin">
-              <b>⚙ Demon hallinta</b>
-              <p>
-                Valitse viikon tilanne napsauttamalla viikkoriviä. Muutokset
-                tallentuvat vain tähän selaimeen.
-              </p>
-              <button id="resetWeeks" type="button">
-                Palauta esimerkkitilanne
-              </button>
-            </div>
           </div>
         </div>
       </section>
@@ -556,20 +541,50 @@
         </div>
         <div class="story-copy">
           <div class="eyebrow">LEIPOMON TARINA</div>
-          <h2>Heippa, <em>täällä BakeVy!</em></h2>
+          <h2>Moikka! <em>Täällä on Vy.</em></h2>
           <p>
-            Parhaat juhlahetket syntyvät pienistä yksityiskohdista ja
-            herkullisista muistoista. BakeVy on Alppilassa toimiva kotileipomo,
-            jossa jokainen tilaus suunnitellaan asiakkaan toiveita kuunnellen.
+            Sivun takana on Vy, nuori yrittäjä, joka loi harrastuksestaan
+            itsellensä ammatin.
           </p>
-          <p class="placeholder-note">
-            Tähän lisätään yrittäjän oma esittely: kuka hän on, miten leipomo
-            sai alkunsa ja mikä leipomisessa innostaa. Oma kuva tekee
-            esittelystä erityisen lämpimän.
+          <p>
+            Leipominen on kiinnostanut minua aina, ja viimeistään 8-vuotiaana
+            tiesin, että minusta tulee isona kondiittori. Peruskouluikäisenä
+            leivoin koko ajan – tai jos en leiponut, niin katsoin
+            leivontavideoita YouTubesta.
           </p>
-          <a href="#yhteys" class="underlink"
-            >Otetaan yhteyttä <span>↗</span></a
-          >
+          <p>
+            Yritys sai alkunsa jo 14-vuotiaana, ysiluokalla, syyskuussa 2018,
+            kun saatiin koulun kautta perustaa yritykset lukuvuoden ajaksi.
+            Vaikka tiesin tästä mahdollisuudesta jo vuotta aiemmin, en vielä
+            ysiluokan alussakaan ollut lähtemässä mukaan, koska “Ei kai kukaan
+            nyt multa tilais”. Sen vuoden aikana tuli harvakseltaan leivottua
+            kavereille ja tuttaville, eli pääsin jo vähän yrittäjyyden makuun.
+          </p>
+          <p>
+            Ysiluokan jälkeen suuntana oli kaksoistutkinto, ja ammattina
+            luonnollisesti leipuri-kondiittori. Silloin en ollut enää yrittäjä,
+            eikä yritystoimintaa ollut edes tarkoitus jatkaa. Itse asiassa vielä
+            lukion alussa uhosin, ettei minusta tule koskaan yrittäjää.
+            Tilauksia tuli todellisuudessa aika harvakseltaan tuttavilta ja
+            kavereilta, mutta kyllähän se siinä opintojen ja harrastusten ohella
+            tuntui jo ihan työltä! Keväällä 2022, viimeisten
+            ylioppilaskirjoitusten jälkeen, hainkin itselleni Y-tunnuksen ja
+            aloin ihan virallisesti yrittäjäksi.
+          </p>
+          <p>
+            Keväällä 2022 edessä oli Taitaja-kisat – minne ei myöskään ollut
+            tarkoitus lähteä mukaan, koska “En kai mää nyt siellä pärjäis”.
+            Onneksi kuitenkin lähdin, koska mukaan lähti pronssimitali!
+          </p>
+          <p>
+            Myöskin keväällä 2022 valmistuin leipuri-kondiittoriksi ja
+            ylioppilaaksi, ja siitä lähtien olenkin tehnyt kotileipurin töitä
+            työkseni – vaikkakin välillä ohessa alan palkkatöiden kanssa. Tämä
+            14-vuotiaana perustettu yritys on vuosien saatossa kasvanut
+            satunnaisesta toiminnasta päätoimiseksi työksi, ja siitä iso kiitos
+            kaikille asiakkailleni – teidän ansiosta olen saanut rakentaa
+            itselleni unelmieni työn! ❤️
+          </p>
         </div>
       </section>
       <section class="section order-section" id="tilaus">
@@ -638,22 +653,62 @@
           suunnitellaan.
         </p>
         <div class="social-links">
-          <a href="https://www.instagram.com/" target="_blank" rel="noopener"
-            >Instagram ↗</a
-          ><a href="https://www.facebook.com/" target="_blank" rel="noopener"
-            >Facebook ↗</a
+          <a
+            href="https://www.instagram.com/kotileipomo.bakevy/"
+            target="_blank"
+            rel="noopener"
           >
+            <img
+              src="assets/bakevy-instagram-profile.jpg"
+              alt="Kotileipomo BakeVyn Instagram-profiilikuva"
+            />
+            ><span class="social-account"
+              ><img
+                class="social-platform-logo"
+                src="assets/instagram-icon.svg"
+                alt="Instagram"
+              />
+              <small>@kotileipomo.bakevy</small></span
+            ><b>↗</b>
+          </a>
+          <a
+            href="https://www.facebook.com/BakeVy"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src="assets/bakevy-facebook-profile.jpg"
+              alt="BakeVyn Facebook-profiilikuva"
+            />
+            ><span class="social-account"
+              ><img
+                class="social-platform-logo"
+                src="assets/facebook-icon.svg"
+                alt="Facebook"
+              />
+              <small>@BakeVy</small></span
+            ><b>↗</b>
+          </a>
         </div>
-        <small
-          >Some-linkit osoittavat demossa palveluiden etusivuille. Vaihdetaan
-          myöhemmin BakeVyn vahvistettuihin profiililinkkeihin.</small
+        <a
+          class="oiva-link"
+          href="https://www.oivahymy.fi/yrityshaku?hakusana=BakeVy"
+          target="_blank"
+          rel="noopener"
+          ><img src="assets/oiva-logo.svg" alt="Oiva" />
+          <span
+            >Oiva-raportti
+            <small
+              >Arvosana: <strong>Oivallinen</strong> · 7.11.2024</small
+            ></span
+          ><b>↗</b></a
         >
       </section>
     </main>
     <footer>
       <a class="footer-brand" href="#alku">✿ Bake<em>Vy</em></a
       ><span>Kotileipomo · Alppila</span
-      ><span>© <span id="year"></span> BakeVy · Demon ulkoasu</span
+      ><span>© <span id="year"></span> BakeVy</span
       ><a href="#alku">Takaisin ylös ↑</a>
     </footer>
     <dialog
@@ -681,9 +736,9 @@
         <button class="close-modal" id="closeModal" aria-label="Sulje">
           ✕
         </button>
-        <div class="eyebrow">TILAUSKYSELYN ESIKATSELU</div>
+        <div class="eyebrow">TILAUKSEN ESIKATSELU</div>
         <h2>Valmis lähetettäväksi ♡</h2>
-        <p>Tämä on demo: tietoja ei lähetetty eikä tilausta tehty.</p>
+        <p>Tarkista tilauksesi tiedot ennen lähetystä.</p>
         <pre id="previewText"></pre>
         <div class="modal-actions">
           <button type="button" class="btn btn-dark" id="copyOrder">
