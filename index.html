@@ -15,7 +15,11 @@
     <header class="site-header">
       <div class="navwrap">
         <a href="#alku" class="brand" aria-label="BakeVy etusivu"
-          ><img class="brand-logo" src="assets/BakevyLogo.jpg" alt="" /><span
+          ><img
+            class="brand-logo"
+            src="assets/BakeVyLogoNoBackground.webp"
+            alt=""
+          /><span
             >Bake<span class="brand-italic">Vy</span
             ><small>KOTILEIPOMO · ALPPILA</small></span
           ></a
@@ -109,7 +113,7 @@
         <div class="hero-image logo-cover">
           <img
             class="hero-logo"
-            src="assets/BakevyLogo.jpg"
+            src="assets/BakeVyLogoNoBackground.webp"
             alt="BakeVyn logo"
           />
           <div class="seal">MAKEITA<br />HETKIÄ <span>✳</span><br />BAKEVY</div>
@@ -147,21 +151,68 @@
           </p>
         </div>
         <div class="pricing-images">
-          <img src="assets/Hinnasto1.jpg" alt="BakeVyn kakkuhinnasto" />
-          <img
-            src="assets/TilaaminenJaMaksaminen.jpg"
-            alt="BakeVyn tilaamisen, maksamisen ja peruutuksen ehdot"
-          />
+          <a
+            href="assets/Hinnasto1.jpg"
+            target="_blank"
+            rel="noopener"
+            aria-label="Avaa hinnasto 1 suurempana"
+            ><img src="assets/Hinnasto1.jpg" alt="BakeVyn hinnasto 1"
+          /></a>
+          <a
+            href="assets/Hinnasto2.png"
+            target="_blank"
+            rel="noopener"
+            aria-label="Avaa hinnasto 2 suurempana"
+            ><img src="assets/Hinnasto2.png" alt="BakeVyn hinnasto 2"
+          /></a>
+          <a
+            href="assets/Hinnasto3.png"
+            target="_blank"
+            rel="noopener"
+            aria-label="Avaa hinnasto 3 suurempana"
+            ><img src="assets/Hinnasto3.png" alt="BakeVyn hinnasto 3"
+          /></a>
+          <a
+            href="assets/Hinnasto4.png"
+            target="_blank"
+            rel="noopener"
+            aria-label="Avaa hinnasto 4 suurempana"
+            ><img src="assets/Hinnasto4.png" alt="BakeVyn hinnasto 4"
+          /></a>
+          <a
+            href="assets/Maksaminen.jpg"
+            target="_blank"
+            rel="noopener"
+            aria-label="Avaa maksamisohje suurempana"
+            ><img
+              src="assets/Maksaminen.jpg"
+              alt="BakeVyn tilaamisen, maksamisen ja peruutuksen ohje"
+          /></a>
         </div>
       </section>
       <section class="builder-section" id="suunnittele">
         <div class="section builder-heading">
           <div class="eyebrow">OMA KAKKU, OMA TYYLI</div>
-          <h2>Rakenna unelmiesi <em>kakku.</em></h2>
-          <p>
-            Valitse suosikkisi ja näet heti suuntaa-antavan hinnan. Lähetä sen
-            jälkeen kysely, niin leipuri vahvistaa yksityiskohdat.
-          </p>
+          <h2>Valitse unelmiesi <em>kakku.</em></h2>
+          <div class="cake-gallery" aria-label="Kakkugalleria">
+            <div class="cake-gallery-track" id="cakeGalleryTrack"></div>
+            <div class="cake-gallery-controls">
+              <button
+                type="button"
+                id="cakeGalleryPrev"
+                aria-label="Edellinen kakku"
+              >
+                ←
+              </button>
+              <button
+                type="button"
+                id="cakeGalleryNext"
+                aria-label="Seuraava kakku"
+              >
+                →
+              </button>
+            </div>
+          </div>
         </div>
         <div class="builder-layout">
           <div class="builder-form">
@@ -298,6 +349,14 @@
                   Teemakoristelu <small>+18 €</small>
                 </button>
               </div>
+              <label class="custom-cake-note" for="cakeCustomNote">
+                Muut toiveet
+                <textarea
+                  id="cakeCustomNote"
+                  rows="3"
+                  placeholder="Kirjoita tähän esimerkiksi väritoive, teksti kakkuun tai muu viimeistelytoive."
+                ></textarea>
+              </label>
             </div>
             <div class="step inspiration-step">
               <div class="step-title">
@@ -377,57 +436,13 @@
           </div>
           <aside class="order-summary">
             <div class="summary-sticky">
-              <div class="summary-art">
-                <div class="cake-preview" aria-live="polite">
-                  <div
-                    class="cake-view-switch"
-                    role="group"
-                    aria-label="Kakkuesikatselun näkymä"
-                  >
-                    <button
-                      type="button"
-                      class="cake-view active"
-                      data-cake-view="outside"
-                      aria-pressed="true"
-                    >
-                      Kakku ulkoa</button
-                    ><button
-                      type="button"
-                      class="cake-view"
-                      data-cake-view="inside"
-                      aria-pressed="false"
-                    >
-                      Näytä sisältä
-                    </button>
-                  </div>
-                  <svg
-                    id="cakePreview"
-                    viewBox="0 0 420 270"
-                    role="img"
-                    aria-labelledby="cakePreviewTitle cakePreviewDesc"
-                  >
-                    <title id="cakePreviewTitle">
-                      Esikatselu valitusta juhlakakusta
-                    </title>
-                    <desc id="cakePreviewDesc">
-                      Valintoja vastaava, yksityiskohtainen kakku ulkoa tai
-                      poikkileikkauksena.
-                    </desc>
-                  </svg>
-                  <div class="preview-badges">
-                    <span id="sumMood">Kevyt ja elegantti</span
-                    ><span id="sumStyle">Suuntaa antava kuvitus</span>
-                  </div>
-                </div>
-                <span>Sinun juhlakakkusi ♡</span>
+              <div class="selected-cake-image" id="selectedCakeImage" hidden>
+                <img id="selectedCakePhoto" alt="" />
+                <span id="selectedCakeName"></span>
               </div>
               <div class="summary-body">
-                <div class="eyebrow">OMA KAKKUSI</div>
-                <h3>Melkein valmis!</h3>
-                <p class="summary-note">
-                  Esikatselu päivittyy valintojesi mukaan ja näyttää
-                  suuntaa-antavasti, millainen kakku voisi olla.
-                </p>
+                <div class="eyebrow">YHTEENVETO</div>
+                <h3>Valitsemasi kakku</h3>
                 <dl>
                   <div>
                     <dt>Koko</dt>
@@ -444,6 +459,10 @@
                   <div>
                     <dt>Koristelu</dt>
                     <dd id="sumDecoration">Hillitty koristelu</dd>
+                  </div>
+                  <div id="sumCustomNoteRow" hidden>
+                    <dt>Muut toiveet</dt>
+                    <dd id="sumCustomNote"></dd>
                   </div>
                 </dl>
                 <div class="total">

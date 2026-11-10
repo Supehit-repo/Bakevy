@@ -178,6 +178,13 @@
       .item small {
         color: var(--muted);
       }
+      .selected-cake-thumb {
+        width: 54px;
+        height: 54px;
+        flex: 0 0 54px;
+        object-fit: cover;
+        border: 1px solid var(--line);
+      }
       .reference-images {
         display: flex;
         flex-wrap: wrap;
@@ -386,7 +393,7 @@
           ? sorted
               .map(
                 (o) =>
-                  `<article class="order"><div class="date"><b>${dateText(o.date)}</b><span>${esc(o.time)}</span><span>Tilaus #${esc(o.id)}</span></div><div><h2>${esc(o.name)}</h2><p class="customer">${esc(o.email)}${o.phone ? " · " + esc(o.phone) : ""}</p><div class="items">${o.items.map((i) => `<div class="item"><span>${i.quantity} × ${esc(i.title)} <small>(${esc(i.size)} hlö, ${esc(i.base)}, ${esc(i.filling)}, ${esc(i.decoration)})</small></span><b>${i.price * i.quantity} €</b></div>`).join("")}</div>${o.message ? `<p class="customer">Lisätoive: ${esc(o.message)}</p>` : ""}${
+                  `<article class="order"><div class="date"><b>${dateText(o.date)}</b><span>${esc(o.time)}</span><span>Tilaus #${esc(o.id)}</span></div><div><h2>${esc(o.name)}</h2><p class="customer">${esc(o.email)}${o.phone ? " · " + esc(o.phone) : ""}</p><div class="items">${o.items.map((i) => `<div class="item">${i.referenceImage?.src ? `<img class="selected-cake-thumb" src="${esc(i.referenceImage.src)}" alt="Valittu kakku: ${esc(i.referenceImage.name || "")}" />` : ""}<span>${i.quantity} × ${esc(i.title)} <small>(${esc(i.size)} hlö, ${esc(i.base)}, ${esc(i.filling)}, ${esc(i.decoration)})${i.customNote ? `<br />Toive: ${esc(i.customNote)}` : ""}</small></span><b>${i.price * i.quantity} €</b></div>`).join("")}</div>${o.message ? `<p class="customer">Lisätoive: ${esc(o.message)}</p>` : ""}${
                     Array.isArray(o.images) && o.images.length
                       ? `<div class="reference-images"><b>INSPIRAATIOKUVAT</b>${o.images
                           .filter((src) =>
