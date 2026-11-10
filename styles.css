@@ -150,6 +150,11 @@ body .summary-art{height:320px;background:radial-gradient(circle at 50% 38%,#f9e
   padding: 13px 14px;
   resize: vertical;
 }
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+}
 
 @media (max-width: 760px) {
   .cake-gallery-track {

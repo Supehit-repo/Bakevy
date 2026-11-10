@@ -619,6 +619,7 @@ if (cakeGalleryTrack) {
     $("selectedCakePhoto").src = selectedCake.src;
     $("selectedCakePhoto").alt = toTitleCase(selectedCake.name);
     $("selectedCakeName").textContent = toTitleCase(selectedCake.name);
+    updateAddToCartButton();
   };
   cakeGalleryImages.forEach((cake) => {
     const { id, name } = cake;
@@ -882,7 +883,16 @@ function closeCart() {
   $("cartButton").setAttribute("aria-expanded", "false");
   $("cartBackdrop").hidden = true;
 }
+function updateAddToCartButton() {
+  const button = $("addToCart");
+  button.disabled = !selectedCake;
+  button.innerHTML = selectedCake
+    ? "Lisää ostoskoriin <span>＋</span>"
+    : "Valitse kakku ylhäältä ensin";
+}
+updateAddToCartButton();
 $("addToCart").addEventListener("click", () => {
+  if (!selectedCake) return;
   cart.push({
     id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
     title: "Oma juhlakakku",
